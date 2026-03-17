@@ -108,3 +108,9 @@ public class NativeBootstrap {
 ```bash
 ./example/run_demo.sh
 ```
+
+## 发布
+
+发布到 GitHub Packages、Maven Central 以及对应的 GitHub Actions 工作流说明见：
+
+- [PUBLISHING.md](/home/ganjb/project/ElfOwl/PUBLISHING.md)
