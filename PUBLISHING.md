@@ -33,7 +33,6 @@ https://maven.pkg.github.com/ganjb/ElfOwl
 
 ```bash
 mvn -P release-github-packages clean deploy
-
 ```
 
 ### Maven Central
