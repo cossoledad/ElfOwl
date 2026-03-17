@@ -23,8 +23,8 @@ ElfOwl 是一个轻巧的 JVM 原生库加载器，面向 Spring Boot、普通 J
 ## 快速开始
 
 ```java
-import io.github.ganjb.elfowl.NativeLibraryLoader;
-import io.github.ganjb.elfowl.NativeLoadOptions;
+import org.elfowl.loader.NativeLibraryLoader;
+import org.elfowl.loader.NativeLoadOptions;
 
 import java.nio.file.Paths;
 
@@ -45,8 +45,8 @@ public class Bootstrap {
 ## Spring Boot 用法
 
 ```java
-import io.github.ganjb.elfowl.NativeLibraryLoader;
-import io.github.ganjb.elfowl.NativeLoadOptions;
+import org.elfowl.loader.NativeLibraryLoader;
+import org.elfowl.loader.NativeLoadOptions;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
@@ -94,3 +94,17 @@ public class NativeBootstrap {
 - 当前未实现 JNI 资源解压、签名校验、ABI 选择等增强能力
 
 这些能力很适合后续演进到 `0.2.x` 和 `0.3.x`。
+
+## 示例工程
+
+根目录下的 [example](/home/ganjb/project/ElfOwl/example) 提供了一个完整可运行的示例：
+
+- 6 个存在依赖关系的 Linux `.so` 动态库
+- 一个 JNI 入口库
+- 一个 Java 演示程序，直接调用 ElfOwl 加载整个目录
+
+可直接运行：
+
+```bash
+./example/run_demo.sh
+```
