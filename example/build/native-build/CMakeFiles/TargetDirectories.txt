@@ -1,8 +1,0 @@
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/owl_seed.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/owl_branch.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/owl_leaf.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/owl_song.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/owl_bridge.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/owl_entry.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/edit_cache.dir
-/home/ganjb/project/ElfOwl/example/build/native-build/CMakeFiles/rebuild_cache.dir

@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC "-Wl,-rpath,\$ORIGIN" -shared -Wl,-soname,libowl_seed.so -o /home/ganjb/project/ElfOwl/example/build/native/libowl_seed.so CMakeFiles/owl_seed.dir/native/owl_seed.c.o 

@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC "-Wl,-rpath,\$ORIGIN" -shared -Wl,-soname,libowl_leaf.so -o /home/ganjb/project/ElfOwl/example/build/native/libowl_leaf.so CMakeFiles/owl_leaf.dir/native/owl_leaf.c.o  -Wl,-rpath,/home/ganjb/project/ElfOwl/example/build/native /home/ganjb/project/ElfOwl/example/build/native/libowl_branch.so -Wl,-rpath-link,/home/ganjb/project/ElfOwl/example/build/native 
