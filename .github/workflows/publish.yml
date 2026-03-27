@@ -47,7 +47,18 @@ jobs:
 
       - name: Publish to GitHub Packages
         if: steps.precheck.outputs.ready == 'true'
-        run: mvn --batch-mode -P release-github-packages clean deploy
+        run: |
+          VERSION="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)"
+          ARTIFACT_ID="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)"
+          mvn --batch-mode -P release-github-packages clean package
+          mvn --batch-mode -P release-github-packages source:jar javadoc:jar
+          mvn --batch-mode -P release-github-packages deploy:deploy-file \
+            -DrepositoryId=github \
+            -Durl=https://maven.pkg.github.com/ganjb/elfowl \
+            -Dfile="target/${ARTIFACT_ID}-${VERSION}.jar" \
+            -DpomFile=pom.xml \
+            -Dsources="target/${ARTIFACT_ID}-${VERSION}-sources.jar" \
+            -Djavadoc="target/${ARTIFACT_ID}-${VERSION}-javadoc.jar"
 
   publish-maven-central:
     name: Publish Maven Central
