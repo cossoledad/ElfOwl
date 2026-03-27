@@ -1,135 +1,55 @@
 # Publishing
 
-这个项目已经内置了两套发布配置：
+当前项目推荐通过 JitPack 分发，不再默认使用 GitHub Packages Maven registry。
 
-- GitHub Packages
-- Maven Central
+原因很直接：
 
-## 先决条件
+- JitPack 更适合还没有 Maven Central 发布条件的开源 Java 库
+- 使用 Git tag / GitHub Release 即可生成可被 Maven/Gradle 消费的依赖
+- 不需要维护额外的 Maven 包仓库上传流程
 
-### GitHub Packages
+## 发布流程
 
-`pom.xml` 已经提供 `release-github-packages` profile，对应仓库：
+### 1. 更新版本
 
-```text
-https://maven.pkg.github.com/ganjb/elfowl
-```
-
-本地发布时，你需要在 `~/.m2/settings.xml` 中配置 `github` 服务器凭证：
+先在 [pom.xml](/home/ganjb/project/ElfOwl/pom.xml) 中维护正式版本号，例如：
 
 ```xml
-<settings>
-  <servers>
-    <server>
-      <id>github</id>
-      <username>YOUR_GITHUB_USERNAME</username>
-      <password>YOUR_GITHUB_TOKEN</password>
-    </server>
-  </servers>
-</settings>
+<version>0.1.0</version>
 ```
 
-发布命令：
+### 2. 打 tag
+
+推荐使用带 `v` 前缀的 tag：
 
 ```bash
-mvn -P release-github-packages clean deploy
+git tag v0.1.0
+git push origin v0.1.0
 ```
 
-### Maven Central
+### 3. 可选：创建 GitHub Release
 
-这个项目使用 Sonatype Central Portal 的 Maven 官方插件发布。
+JitPack 可以直接基于 tag 构建，不强制要求 Release。
 
-在真正发布前，你还需要先完成这几件事：
+如果你希望用户更方便下载源码包、jar 或查看版本说明，可以再创建 GitHub Release。
 
-1. 在 Central Portal 注册账号
-2. 验证并拥有一个可发布的 namespace
-3. 生成 Portal User Token
-4. 准备好 GPG 私钥
+## 使用方式
 
-注意：
+JitPack 官方文档：
 
-- 你当前的 `groupId` 是 `org.elfowl`
-- 只有当 `org.elfowl` 是你在 Central Portal 中已验证并可发布的 namespace 时，才能成功发布
-- 如果你还没有这个 namespace，建议先改成你实际拥有的 namespace 再发布
+- https://docs.jitpack.io/
+- https://jitpack.io/
 
-本地 `settings.xml` 示例：
+### Maven
 
-```xml
-<settings>
-  <servers>
-    <server>
-      <id>central</id>
-      <username>YOUR_CENTRAL_TOKEN_USERNAME</username>
-      <password>YOUR_CENTRAL_TOKEN_PASSWORD</password>
-    </server>
-  </servers>
-</settings>
-```
-
-发布命令：
-
-```bash
-mvn -P release-maven-central clean deploy
-```
-
-## GitHub Actions Secrets
-
-工作流需要以下 secrets：
-
-### GitHub Packages
-
-- `GH_PACKAGES_USERNAME`
-- `GH_PACKAGES_TOKEN`
-
-说明：
-
-- `GH_PACKAGES_USERNAME` 使用你的 GitHub 用户名
-- `GH_PACKAGES_TOKEN` 使用 classic Personal Access Token
-- 该 token 至少需要 `write:packages`
-- 如果仓库是私有仓库，通常也建议附带 `repo`
-- 当前工作流不再依赖默认 `GITHUB_TOKEN` 发布 Maven 包，以规避 GitHub Packages Maven deploy 的兼容性问题
-
-### Maven Central
-
-- `CENTRAL_TOKEN_USERNAME`
-- `CENTRAL_TOKEN_PASSWORD`
-- `GPG_PRIVATE_KEY`
-- `GPG_PASSPHRASE`
-
-其中：
-
-- `CENTRAL_TOKEN_USERNAME` 和 `CENTRAL_TOKEN_PASSWORD` 来自 Central Portal User Token
-- `GPG_PRIVATE_KEY` 建议放 ASCII armor 格式的私钥全文
-- `GPG_PASSPHRASE` 是对应私钥口令
-
-## 工作流使用方式
-
-仓库已内置发布工作流：
-
-- [publish.yml](/home/ganjb/project/ElfOwl/.github/workflows/publish.yml)
-
-触发方式：
-
-1. 创建 GitHub Release
-2. 或手动触发 `workflow_dispatch`
-
-默认行为：
-
-- `publish-github-packages` 会在 tag、release 或手动触发时发布到 GitHub Packages
-- `publish-maven-central` 会在 Central + GPG secrets 全部存在时发布到 Maven Central
-
-## 消费方式
-
-### 从 GitHub Packages 使用
-
-使用方项目需要配置仓库：
+在使用方项目中添加仓库：
 
 ```xml
 <repositories>
-    <repository>
-        <id>github</id>
-        <url>https://maven.pkg.github.com/ganjb/elfowl</url>
-    </repository>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
 </repositories>
 ```
 
@@ -137,22 +57,34 @@ mvn -P release-maven-central clean deploy
 
 ```xml
 <dependency>
-    <groupId>org.elfowl</groupId>
-    <artifactId>elfowl-native-loader</artifactId>
-    <version>0.1.0</version>
+  <groupId>com.github.ganjb</groupId>
+  <artifactId>ElfOwl</artifactId>
+  <version>v0.1.0</version>
 </dependency>
 ```
 
-### 从 Maven Central 使用
+说明：
 
-发布成功后，使用方只需要：
+- `groupId` 采用 JitPack 规则，对应 GitHub owner
+- `artifactId` 通常对应仓库名
+- `version` 通常对应 Git tag
 
-```xml
-<dependency>
-    <groupId>org.elfowl</groupId>
-    <artifactId>elfowl-native-loader</artifactId>
-    <version>0.1.0</version>
-</dependency>
+如果你后续修改了仓库名、owner 或 tag 规则，依赖坐标也会随之变化。
+
+### Gradle
+
+```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.ganjb:ElfOwl:v0.1.0'
+}
 ```
 
-Maven 默认就会从 Central 拉取，无需额外仓库配置。
+## GitHub Actions
+
+当前工作流默认只做构建校验，不再自动发布到 GitHub Packages。
+
+如果后续你准备好了 Maven Central，再补专门的正式发布工作流更合适。

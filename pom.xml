@@ -37,8 +37,6 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>8</maven.compiler.release>
-        <github.owner>ganjb</github.owner>
-        <github.repo>elfowl</github.repo>
         <gpg.bestPractices>false</gpg.bestPractices>
     </properties>
 
@@ -86,17 +84,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>release-github-packages</id>
-            <distributionManagement>
-                <repository>
-                    <id>github</id>
-                    <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/${github.owner}/${github.repo}</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-
         <profile>
             <id>release-maven-central</id>
             <build>
