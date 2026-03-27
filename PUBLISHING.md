@@ -78,8 +78,16 @@ mvn -P release-maven-central clean deploy
 
 ### GitHub Packages
 
-- `GITHUB_TOKEN`
-  GitHub Actions 自动提供，无需手动创建
+- `GH_PACKAGES_USERNAME`
+- `GH_PACKAGES_TOKEN`
+
+说明：
+
+- `GH_PACKAGES_USERNAME` 使用你的 GitHub 用户名
+- `GH_PACKAGES_TOKEN` 使用 classic Personal Access Token
+- 该 token 至少需要 `write:packages`
+- 如果仓库是私有仓库，通常也建议附带 `repo`
+- 当前工作流不再依赖默认 `GITHUB_TOKEN` 发布 Maven 包，以规避 GitHub Packages Maven deploy 的兼容性问题
 
 ### Maven Central
 
@@ -107,7 +115,7 @@ mvn -P release-maven-central clean deploy
 
 默认行为：
 
-- `publish-github-packages` 会发布到 GitHub Packages
+- `publish-github-packages` 会在 tag、release 或手动触发时发布到 GitHub Packages
 - `publish-maven-central` 会在 Central + GPG secrets 全部存在时发布到 Maven Central
 
 ## 消费方式

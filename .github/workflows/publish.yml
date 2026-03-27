@@ -2,8 +2,6 @@ name: Publish Packages
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
   release:
@@ -17,25 +15,39 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
-      packages: write
+    env:
+      GITHUB_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
+      GITHUB_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
     steps:
+      - name: Check GitHub Packages secrets
+        id: precheck
+        shell: bash
+        run: |
+          if [[ -n "${GITHUB_PACKAGES_USERNAME}" && -n "${GITHUB_PACKAGES_TOKEN}" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "GitHub Packages publish skipped because GH_PACKAGES_USERNAME or GH_PACKAGES_TOKEN is missing."
+          fi
+
       - name: Checkout
+        if: steps.precheck.outputs.ready == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Java
+        if: steps.precheck.outputs.ready == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
           cache: maven
           server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          server-username: GITHUB_PACKAGES_USERNAME
+          server-password: GITHUB_PACKAGES_TOKEN
 
       - name: Publish to GitHub Packages
+        if: steps.precheck.outputs.ready == 'true'
         run: mvn --batch-mode -P release-github-packages clean deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-maven-central:
     name: Publish Maven Central
