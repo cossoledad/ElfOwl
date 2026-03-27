@@ -5,7 +5,7 @@
 - 6 个 Linux 动态库
 - 明确的依赖链
 - 一个 JNI 入口库
-- 一个 Java 程序使用 ElfOwl 扫描并加载整个目录
+- 一个独立 Maven 示例项目，通过 JitPack 依赖 ElfOwl 并扫描加载整个目录
 
 依赖关系如下：
 
@@ -20,6 +20,12 @@
 
 ```bash
 ./example/run_demo.sh
+```
+
+默认会从 JitPack 拉取 `v0.1.1`。如果你要验证其他 tag，可覆盖版本：
+
+```bash
+ELFOWL_VERSION=v0.1.1 ./example/run_demo.sh
 ```
 
 预期输出会包含：

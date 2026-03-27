@@ -15,7 +15,7 @@
 先在 [pom.xml](/home/ganjb/project/ElfOwl/pom.xml) 中维护正式版本号，例如：
 
 ```xml
-<version>0.1.0</version>
+<version>0.1.1</version>
 ```
 
 ### 2. 打 tag
@@ -23,8 +23,8 @@
 推荐使用带 `v` 前缀的 tag：
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.1.1
+git push origin v0.1.1
 ```
 
 ### 3. 可选：创建 GitHub Release
@@ -57,9 +57,9 @@ JitPack 官方文档：
 
 ```xml
 <dependency>
-  <groupId>com.github.ganjb</groupId>
+  <groupId>com.github.cossoledad</groupId>
   <artifactId>ElfOwl</artifactId>
-  <version>v0.1.0</version>
+  <version>v0.1.1</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.ganjb:ElfOwl:v0.1.0'
+    implementation 'com.github.cossoledad:ElfOwl:v0.1.1'
 }
 ```
 
