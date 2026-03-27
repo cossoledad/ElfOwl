@@ -108,9 +108,3 @@ public class NativeBootstrap {
 ```bash
 ./example/run_demo.sh
 ```
-
-## 发布
-
-当前推荐通过 JitPack 分发，发布说明见：
-
-- [PUBLISHING.md](/home/ganjb/project/ElfOwl/PUBLISHING.md)
