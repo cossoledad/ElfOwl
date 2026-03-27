@@ -12,7 +12,7 @@
 `pom.xml` 已经提供 `release-github-packages` profile，对应仓库：
 
 ```text
-https://maven.pkg.github.com/ganjb/ElfOwl
+https://maven.pkg.github.com/ganjb/elfowl
 ```
 
 本地发布时，你需要在 `~/.m2/settings.xml` 中配置 `github` 服务器凭证：
@@ -128,7 +128,7 @@ mvn -P release-maven-central clean deploy
 <repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/ganjb/ElfOwl</url>
+        <url>https://maven.pkg.github.com/ganjb/elfowl</url>
     </repository>
 </repositories>
 ```

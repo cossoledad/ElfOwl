@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>8</maven.compiler.release>
         <github.owner>ganjb</github.owner>
-        <github.repo>ElfOwl</github.repo>
+        <github.repo>elfowl</github.repo>
         <gpg.bestPractices>false</gpg.bestPractices>
     </properties>
 
