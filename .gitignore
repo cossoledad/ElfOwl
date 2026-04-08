@@ -1,7 +1,8 @@
 **/target/
 **/build/
-/.idea/
 *.iml
+.codex
+/.idea/
 /.classpath
 /.project
 /.settings/
